@@ -1,4 +1,4 @@
-import { Contract, providers, utils } from "ethers";
+import * as ethers from "ethers";
 import Head from "next/head";
 import React, { useEffect, useRef, useState } from "react";
 import Web3Modal from "web3modal";
@@ -30,12 +30,12 @@ export default function Home() {
       const signer = await getProviderOrSigner(true);
       // Create a new instance of the Contract with a Signer, which allows
       // update methods
-      const nftContract = new Contract(NFT_CONTRACT_ADDRESS, abi, signer);
+      const nftContract = new ethers.Contract(NFT_CONTRACT_ADDRESS, abi, signer);
       // call the presaleMint from the contract, only whitelisted addresses would be able to mint
       const tx = await nftContract.presaleMint({
         // value signifies the cost of one crypto dev which is "0.01" eth.
         // We are parsing `0.01` string to ether using the utils library from ethers.js
-        value: utils.parseEther("0.01"),
+        value: ethers.utils.parseEther("0.01"),
       });
       setLoading(true);
       // wait for the transaction to get mined
@@ -56,12 +56,12 @@ export default function Home() {
       const signer = await getProviderOrSigner(true);
       // Create a new instance of the Contract with a Signer, which allows
       // update methods
-      const nftContract = new Contract(NFT_CONTRACT_ADDRESS, abi, signer);
+      const nftContract = new ethers.Contract(NFT_CONTRACT_ADDRESS, abi, signer);
       // call the mint from the contract to mint the Crypto Dev
       const tx = await nftContract.mint({
         // value signifies the cost of one crypto dev which is "0.01" eth.
         // We are parsing `0.01` string to ether using the utils library from ethers.js
-        value: utils.parseEther("0.01"),
+        value: ethers.utils.parseEther("0.01"),
       });
       setLoading(true);
       // wait for the transaction to get mined
@@ -96,7 +96,7 @@ export default function Home() {
       const signer = await getProviderOrSigner(true);
       // Create a new instance of the Contract with a Signer, which allows
       // update methods
-      const nftContract = new Contract(NFT_CONTRACT_ADDRESS, abi, signer);
+      const nftContract = new ethers.Contract(NFT_CONTRACT_ADDRESS, abi, signer);
       // call the startPresale from the contract
       const tx = await nftContract.startPresale();
       setLoading(true);
@@ -121,7 +121,7 @@ export default function Home() {
       const provider = await getProviderOrSigner();
       // We connect to the Contract using a Provider, so we will only
       // have read-only access to the Contract
-      const nftContract = new Contract(NFT_CONTRACT_ADDRESS, abi, provider);
+      const nftContract = new ethers.Contract(NFT_CONTRACT_ADDRESS, abi, provider);
       // call the presaleStarted from the contract
       const _presaleStarted = await nftContract.presaleStarted();
       if (!_presaleStarted) {
@@ -146,7 +146,7 @@ export default function Home() {
       const provider = await getProviderOrSigner();
       // We connect to the Contract using a Provider, so we will only
       // have read-only access to the Contract
-      const nftContract = new Contract(NFT_CONTRACT_ADDRESS, abi, provider);
+      const nftContract = new ethers.Contract(NFT_CONTRACT_ADDRESS, abi, provider);
       // call the presaleEnded from the contract
       const _presaleEnded = await nftContract.presaleEnded();
       // _presaleEnded is a Big Number, so we are using the lt(less than function) insteal of `<`
@@ -176,7 +176,7 @@ export default function Home() {
       const provider = await getProviderOrSigner();
       // We connect to the Contract using a Provider, so we will only
       // have read-only access to the Contract
-      const nftContract = new Contract(NFT_CONTRACT_ADDRESS, abi, provider);
+      const nftContract = new ethers.Contract(NFT_CONTRACT_ADDRESS, abi, provider);
       // call the owner function from the contract
       const _owner = await nftContract.owner();
       // We will get the signer now to extract the address of the currently connected MetaMask account
@@ -201,7 +201,7 @@ export default function Home() {
       const provider = await getProviderOrSigner();
       // We connect to the Contract using a Provider, so we will only
       // have read-only access to the Contract
-      const nftContract = new Contract(NFT_CONTRACT_ADDRESS, abi, provider);
+      const nftContract = new ethers.Contract(NFT_CONTRACT_ADDRESS, abi, provider);
       // call the tokenIds from the contract
       const _tokenIds = await nftContract.tokenIds();
       //_tokenIds is a `Big Number`. We need to convert the Big Number to a string
@@ -227,7 +227,7 @@ export default function Home() {
     // Connect to Metamask
     // Since we store `web3Modal` as a reference, we need to access the `current` value to get access to the underlying object
     const provider = await web3ModalRef.current.connect();
-    const web3Provider = new providers.Web3Provider(provider);
+    const web3Provider = new ethers.providers.Web3Provider(provider);
 
     // If user is not connected to the Rinkeby network, let them know and throw an error
     const { chainId } = await web3Provider.getNetwork();
